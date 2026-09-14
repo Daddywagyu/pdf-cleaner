@@ -1,0 +1,19 @@
+{
+  "name": "pdf-cleaner",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Offline PDF exam cleaner - removes handwriting & exam markings locally in the browser",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.7.76"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  }
+}
