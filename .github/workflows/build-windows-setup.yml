@@ -1,0 +1,69 @@
+name: Build Windows Setup
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Check project files
+        shell: pwsh
+        run: |
+          if (!(Test-Path package.json)) {
+            Write-Error "package.json not found. Upload and integrate the PDF Cleaner source ZIP at the repository root before building."
+          }
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Windows installer
+        run: npm run dist -- --win nsis
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify installer exists
+        id: installer
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem -Path dist -Filter *.exe -Recurse |
+            Where-Object { $_.Name -match 'Setup|Installer|setup|installer' } |
+            Select-Object -First 1
+          if (-not $exe) {
+            $exe = Get-ChildItem -Path dist -Filter *.exe -Recurse | Select-Object -First 1
+          }
+          if (-not $exe) { Write-Error "No Windows installer .exe was produced."; exit 1 }
+          "path=$($exe.FullName)" >> $env:GITHUB_OUTPUT
+          "name=$($exe.Name)" >> $env:GITHUB_OUTPUT
+
+      - name: Upload build artifact
+        if: startsWith(github.ref, 'refs/tags/') == false
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf-cleaner-windows-setup
+          path: ${{ steps.installer.outputs.path }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.installer.outputs.path }}
+          generate_release_notes: true
