@@ -1,0 +1,35 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /usr/bin/python3
+rootdir: /home/claude/local_pdf_pen_remover
+collecting ... collected 28 items
+
+tests/test_color_detector.py::test_red_pen_on_white PASSED               [  3%]
+tests/test_color_detector.py::test_blue_pen_on_white PASSED              [  7%]
+tests/test_color_detector.py::test_colour_switches PASSED                [ 10%]
+tests/test_color_detector.py::test_clean_page_has_no_detection PASSED    [ 14%]
+tests/test_color_detector.py::test_uneven_tinted_scan_no_false_positive PASSED [ 17%]
+tests/test_color_detector.py::test_sensitivity_controls_light_pen PASSED [ 21%]
+tests/test_color_detector.py::test_mode_ordering PASSED                  [ 25%]
+tests/test_color_detector.py::test_mask_expansion_grows PASSED           [ 28%]
+tests/test_color_detector.py::test_pen_over_text_is_not_confused_with_text PASSED [ 32%]
+tests/test_gui_smoke.py::test_gui_flow PASSED                            [ 35%]
+tests/test_gui_smoke.py::test_cancel PASSED                              [ 39%]
+tests/test_pdf_export.py::test_export_roundtrip_keeps_other_pages_and_original PASSED [ 42%]
+tests/test_pdf_export.py::test_refuses_to_overwrite_source PASSED        [ 46%]
+tests/test_pdf_export.py::test_page_size_rotation_and_dpi PASSED         [ 50%]
+tests/test_pdf_export.py::test_no_text_layer_option_warns PASSED         [ 53%]
+tests/test_pdf_export.py::test_toc_and_metadata_preserved PASSED         [ 57%]
+tests/test_pdf_export.py::test_loader_errors PASSED                      [ 60%]
+tests/test_pdf_export.py::test_loader_info_and_memory_guard PASSED       [ 64%]
+tests/test_pdf_export.py::test_end_to_end_scanned_multipage PASSED       [ 67%]
+tests/test_restoration.py::test_balanced_removes_pen_without_collateral PASSED [ 71%]
+tests/test_restoration.py::test_no_coloured_pen_pixels_remain PASSED     [ 75%]
+tests/test_restoration.py::test_all_modes_and_methods_run PASSED         [ 78%]
+tests/test_restoration.py::test_pen_on_blank_paper_is_restored_to_paper PASSED [ 82%]
+tests/test_restoration.py::test_advanced_unmix_preserves_text_under_translucent_ink PASSED [ 85%]
+tests/test_restoration.py::test_pen_over_grid_line_keeps_line PASSED     [ 89%]
+tests/test_restoration.py::test_deterministic PASSED                     [ 92%]
+tests/test_restoration.py::test_mask_editor_add_restore_undo_redo PASSED [ 96%]
+tests/test_restoration.py::test_manual_edit_overrides_detection PASSED   [100%]
+
+======================== 28 passed in 70.91s (0:01:10) =========================
